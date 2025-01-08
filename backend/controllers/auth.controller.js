@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
+import { generateKeys } from "../helpers/generateKeys.js";
 //Register user
 export const registerUser = async (req, res) => {
   try {
@@ -59,6 +60,13 @@ export const loginUser = async (req, res) => {
         message: "password incorrect",
       });
     }
+    const keys = await generateKeys(user._id);
+    if (!user.publicKey) {
+      user.publicKey = keys.publicKey;
+    } else {
+      keys.privateKey = null;
+    }
+    await user.save();
     const token = jwt.sign(
       { id: user._id, userName: user.userName },
       process.env.JWT_SECRET_KEY,
@@ -68,6 +76,7 @@ export const loginUser = async (req, res) => {
       success: true,
       message: "user logged in successfully.",
       token,
+      priviteKey: keys.privateKey,
       user: {
         id: user._id,
         userName: user.userName,
