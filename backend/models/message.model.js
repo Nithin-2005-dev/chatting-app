@@ -12,8 +12,8 @@ const messageSchema = new mongoose.Schema(
       required: true,
     },
     status: {
-      enum: ["sent", "delivered", "seen"],
       type: String,
+      enum: ["sent", "delivered", "seen"], // Correct way to define enums
       default: "sent",
     },
     messageSender: {

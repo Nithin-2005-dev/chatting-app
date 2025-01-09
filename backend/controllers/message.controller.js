@@ -81,6 +81,8 @@ export const receiveMessage = async (req, res) => {
       allMessages.push({
         message: decryptedMessage,
         time: message.createdAt,
+        id: message._id,
+        status:message.status
       });
     }
 
@@ -88,6 +90,31 @@ export const receiveMessage = async (req, res) => {
       success: true,
       message: "Messages decrypted successfully",
       allMessages,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong! Please try again.",
+      err: err.message,
+    });
+  }
+};
+export const updateStatus = async (req, res) => {
+  try {
+    const updatedMessage = await Message.findByIdAndUpdate(
+      req.params.id,
+      { status: req.query.status },
+      { new: true }
+    );
+    if (!updatedMessage) {
+      return res.status(404).json({
+        success: false,
+        message: "message not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "status updated",
     });
   } catch (err) {
     res.status(500).json({

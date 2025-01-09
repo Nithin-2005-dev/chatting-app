@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 //userName,password,email,fullName,profilePicture,lastSeen,isVerified,blockedUsers
 const userSchema = new mongoose.Schema(
   {
+    friends: {
+      type: [mongoose.Types.ObjectId],
+      ref: "User",
+    },
     userName: {
       type: String,
       required: [true, "User name is required"],

@@ -38,7 +38,7 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password, userName } = req.body;
-    if (!userName || !email || !password) {
+    if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: "required fields are missing.",
@@ -63,8 +63,6 @@ export const loginUser = async (req, res) => {
     const keys = await generateKeys(user._id);
     if (!user.publicKey) {
       user.publicKey = keys.publicKey;
-    } else {
-      keys.privateKey = null;
     }
     await user.save();
     const token = jwt.sign(
