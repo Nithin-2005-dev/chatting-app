@@ -14,7 +14,7 @@ const Header = () => {
   }
   return (
     <header>
-    <div className='flex items-center border-0 border-b-2 shadow-md content-center border-slate-500 shadow-slate-600'> 
+    <div className='flex items-center border-0 border-b-2 shadow-md content-center border-slate-500 shadow-slate-600 h-[10vh]'> 
     <img src="/logo-no-bg.png" alt="logo" width={60} className='bg-none' />
     <p className='text-white font-bold'>CommuLink</p>
     <FaUserCircle className='inline-block absolute right-3 text-4xl m-2 text-sky-400 cursor-pointer rounded-full border border-white hover:border-2 bg-white' onClick={()=>{

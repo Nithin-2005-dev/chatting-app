@@ -1,3 +1,8 @@
-body{
-    background-color: rgb(44, 62, 80)
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: rgb(44, 62, 80);
 }
