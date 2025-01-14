@@ -24,6 +24,10 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: [true, "message content is required"],
     },
+    time:{
+      type:String,
+      default:Date.now()
+    }
   },
   { timestamps: true }
 );

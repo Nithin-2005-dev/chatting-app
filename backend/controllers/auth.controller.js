@@ -74,7 +74,7 @@ export const loginUser = async (req, res) => {
       success: true,
       message: "user logged in successfully.",
       token,
-      priviteKey: keys.privateKey,
+      privateKey: keys.privateKey,
       user: {
         id: user._id,
         userName: user.userName,

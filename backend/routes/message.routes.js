@@ -6,5 +6,5 @@ import {
 } from "../controllers/message.controller.js";
 export const messageRouter = express.Router();
 messageRouter.post("/send/:id", sendMessage);
-messageRouter.get("/receive/:id", receiveMessage);
+messageRouter.post("/receive/:id", receiveMessage);
 messageRouter.put("/status/:id", updateStatus);

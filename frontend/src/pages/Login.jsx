@@ -8,8 +8,12 @@ const Login = () => {
     const handleLogin=async()=>{
         try{
             const res=await axios.post("http://localhost:8080/api/auth/login",{email:emailRef.current.value,password:passwordRef.current.value})
+            console.log(res.data.user)
             document.cookie=`token=${res.data.token}`
-            document.cookie=`privateKey=${res.data.priviteKey}`
+            if(!localStorage.getItem(`privateKey_CommuLink_${res.data.user.id}`)){
+            localStorage.setItem(`privateKey_CommuLink_${res.data.user.id}`,res.
+            data.privateKey)
+            }
             navigate("/")
         }catch(err){
             if (err.response) {

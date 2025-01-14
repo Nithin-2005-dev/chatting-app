@@ -1,5 +1,6 @@
 import e from "express";
 import {
+  addFriend,
   blockUser,
   getProfile,
   setOnline,
@@ -8,9 +9,10 @@ import {
   updateProfile,
 } from "../controllers/user.controller.js";
 export const userRouter = e.Router();
-userRouter.get("/profile/:id", getProfile);
+userRouter.post("/profile/:id", getProfile);
 userRouter.put("/update/:id", updateProfile);
-userRouter.post("/blockUser/:id", blockUser);
-userRouter.post("/unBlockUser/:id", unBlockUser);
+userRouter.put("/blockUser/:id", blockUser);
+userRouter.put("/unBlockUser/:id", unBlockUser);
+userRouter.put("/addFriend/:id", addFriend);
 userRouter.put("/updateLastSeen/:id", updateLastSeen);
 userRouter.put("/setOnline/:id", setOnline);

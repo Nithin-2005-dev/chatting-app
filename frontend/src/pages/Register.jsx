@@ -1,10 +1,11 @@
 import React, { useRef } from 'react'
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axios from "axios"
 const Register = () => {
     const emailRef=useRef();
     const passwordRef=useRef();
     const userRef=useRef();
+    const navigate=useNavigate();
     const handleRegister=async()=>{
         try{
             const res=await axios.post("http://localhost:8080/api/auth/register",{email:emailRef.current.value,password:passwordRef.current.value,userName:userRef.current.value})

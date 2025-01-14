@@ -23,11 +23,11 @@ export const sendMessage = async (req, res) => {
     }
     const encryptedMessageReciever = await encryptMessage(
       message,
-      receiver.publicKey
+      sender.publicKey
     );
     const encryptedMessageSender = await encryptMessage(
       message,
-      sender.publicKey
+      receiver.publicKey
     );
     const newMessage = await Message.create({
       messageReceiver: encryptedMessageReciever,
@@ -50,14 +50,21 @@ export const sendMessage = async (req, res) => {
 };
 export const receiveMessage = async (req, res) => {
   try {
-    const { privateKey } = req.body;
+    const { privateKey,receiver} = req.body;
     if (!privateKey) {
-      return res.status(502).json({
+      return res.status(403).json({
         success: false,
         message: "you are not allow to see messages",
       });
     }
-    const messages = await Message.find({ receiver: req.params.id });
+    if (!req.params.id) {
+      return res.status(400).json({
+        success: false,
+        message: "sender id required",
+      });
+    }
+    const messages = await Message.find({
+      $or: [{$or:[{sender:req.params.id,receiver}]},{$or:[{sender:receiver,receiver:req.params.id}]}]})
     if (messages.length === 0) {
       return res.status(404).json({
         success: false,
@@ -66,11 +73,23 @@ export const receiveMessage = async (req, res) => {
     }
     const allMessages = [];
     for (const message of messages) {
-      const decryptedMessage = await decryptMessage(
+      let decryptedMessage;
+      try{
+      decryptedMessage = await decryptMessage(
         message.messageReceiver,
         privateKey
       );
+    }catch(err){
 
+    }
+    try{
+      decryptedMessage = await decryptMessage(
+        message.messageSender,
+        privateKey
+      );
+    }catch(err){
+
+    }
       if (!decryptedMessage) {
         return res.status(500).json({
           success: false,
@@ -82,7 +101,9 @@ export const receiveMessage = async (req, res) => {
         message: decryptedMessage,
         time: message.createdAt,
         id: message._id,
-        status:message.status
+        status:message.status,
+        sender:message.sender,
+        receiver:message.receiver
       });
     }
 

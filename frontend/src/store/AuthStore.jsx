@@ -4,10 +4,10 @@ import axios from "axios";
 export const Auth=createContext({});
 export const AuthProvider=({children})=>{
   const [currentUser,setUser]=useState()
-    const getUserInfo=async()=>{
+    const getUserInfo=async(user)=>{
       try{
-        const response=await axios.get(`http://localhost:8080/api/user/profile/${currentUser.id}`)
-        setUser(response.data.user);
+        const response=await axios.post(`http://localhost:8080/api/user/profile/${user.id}`)
+        setUser(response.data.user)
       }catch(err){
         if (err.response) {
           console.error('Error response:', err.response.data); 

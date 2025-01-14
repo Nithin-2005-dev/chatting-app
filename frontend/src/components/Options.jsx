@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { IoMenu,IoChatbox } from "react-icons/io5";
 import { IoIosPersonAdd } from "react-icons/io";
+import { ChatStore } from '../store/ChatStoreProvider';
+import { Link } from 'react-router';
 const Options = () => {
     const [menu,showMenu]=useState(false)
   return (
@@ -8,14 +10,14 @@ const Options = () => {
       <IoMenu onClick={()=>{
         showMenu(!menu)
       }} className='cursor-pointer'/>
-      <div className='flex gap-2 items-center'>
+      <Link to={"/"} className='flex gap-2 items-center' >
       <IoChatbox />
-      {menu && <p className='text-lg'>Chats</p>}
-      </div>
-      <div className='flex gap-2 items-center'>
+      {menu && <p className='text-lg' >Chats</p>}
+      </Link>
+      <Link to={"/addFriend"} className='flex gap-2 items-center' >
       <IoIosPersonAdd />
-      {menu && <p className='text-lg'>Add friend</p>}
-      </div>
+      {menu && <p className='text-lg' >Add friend</p>}
+      </Link>
     </div>
   )
 }
